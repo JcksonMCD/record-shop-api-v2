@@ -20,11 +20,11 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "album_name")
+    @Column(name = "album_id")
     private String albumName;
 
     @ManyToOne
-    @JoinColumn(name = "artist_name")
+    @JoinColumn(name = "artist_id")
     private Artist artist;
 
     private Genre genre;
