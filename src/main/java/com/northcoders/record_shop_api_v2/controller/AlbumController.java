@@ -18,7 +18,7 @@ public class AlbumController {
 
     @GetMapping
     public ResponseEntity<List<Album>> getAllAlbums(){
-        return new ResponseEntity<>(albumService.getAllAlbums, HttpStatus.OK);
+        return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
     }
 
 }
