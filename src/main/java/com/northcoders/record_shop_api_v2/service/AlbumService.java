@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AlbumService {
 
-    public List<Album> getAllAlbums();
+    List<Album> getAllAlbums();
 }
