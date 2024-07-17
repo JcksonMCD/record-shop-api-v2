@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "albums")
 @Data
-@Builder
+@Builder // Builder pattern used as Album class has more than four parameters and may have more as application evolves.
 @NoArgsConstructor
 @AllArgsConstructor
 public class Album {
