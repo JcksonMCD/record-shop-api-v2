@@ -2,6 +2,7 @@ package com.northcoders.record_shop_api_v2.controller;
 
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.service.AlbumService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,11 @@ import java.util.List;
 public class AlbumController {
 
     AlbumService albumService;
+
+    @Autowired
+    public AlbumController(AlbumService albumService) {
+        this.albumService = albumService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Album>> getAllAlbums(){
