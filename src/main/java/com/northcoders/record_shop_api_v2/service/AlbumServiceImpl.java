@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AlbumServiceImpl implements AlbumService{
@@ -23,7 +24,7 @@ public class AlbumServiceImpl implements AlbumService{
     @Override
     public List<AlbumDTO> getAllAlbums() {
         List<Album> albums = albumRepository.findAll();
-        return albums.stream().map();
+        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     private AlbumDTO mapToDTO(Album album){
