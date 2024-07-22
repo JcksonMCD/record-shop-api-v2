@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AlbumServiceImplTest {
 
     @Mock
-    AlbumRepository albumRepository;
+    private AlbumRepository albumRepository;
 
     @Test
     void getAllAlbums() {
