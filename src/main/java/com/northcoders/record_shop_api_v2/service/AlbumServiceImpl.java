@@ -48,4 +48,18 @@ public class AlbumServiceImpl implements AlbumService{
 
         return  artistDTO;
     }
+
+    private Album mapToEntity(AlbumDTO albumDTO){
+        Album album = new Album();
+
+        album.setId(albumDTO.getId());
+        album.setAlbumName(albumDTO.getAlbumName());
+        // Artist not converted
+        album.setGenre(albumDTO.getGenre());
+        album.setArtUrl(albumDTO.getArtUrl());
+        album.setStockQuantity(albumDTO.getStockQuantity());
+        album.setReleaseYear(albumDTO.getReleaseYear());
+
+        return album;
+    }
 }
