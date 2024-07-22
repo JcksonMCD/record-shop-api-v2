@@ -41,6 +41,11 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     private ArtistDTO mapToDTO(Artist artist){
-        
+        ArtistDTO artistDTO = new ArtistDTO();
+
+        artistDTO.setId(artist.getId());
+        artistDTO.setName(artist.getName());
+
+        return  artistDTO;
     }
 }
