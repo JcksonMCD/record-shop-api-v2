@@ -20,12 +20,21 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public List<AlbumDTO> getAllAlbums() {
-        List<Album> albums = new ArrayList<>();
-        albumRepository.findAll().forEach(albums::add);
+        List<Album> albums = albumRepository.findAll();
         return albums.stream().map();
     }
 
     private AlbumDTO mapToDTO(Album album){
-        
+        AlbumDTO albumDTO = new AlbumDTO();
+
+        albumDTO.setId(album.getId());
+        albumDTO.setAlbumName(album.getAlbumName());
+        albumDTO.setGenre(album.getGenre());
+        // Artist in albumDTO needs setting
+        albumDTO.setArtUrl(album.getArtUrl());
+        albumDTO.setReleaseYear(album.getReleaseYear());
+        albumDTO.setStockQuantity(album.getStockQuantity());
+
+        return albumDTO;
     }
 }
