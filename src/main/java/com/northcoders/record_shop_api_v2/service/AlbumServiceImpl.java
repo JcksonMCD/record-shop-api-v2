@@ -32,7 +32,7 @@ public class AlbumServiceImpl implements AlbumService{
         albumDTO.setId(album.getId());
         albumDTO.setAlbumName(album.getAlbumName());
         albumDTO.setGenre(album.getGenre());
-        // Artist in albumDTO needs setting
+        albumDTO.setArtist(mapToDTO(album.getArtist()));
         albumDTO.setArtUrl(album.getArtUrl());
         albumDTO.setReleaseYear(album.getReleaseYear());
         albumDTO.setStockQuantity(album.getStockQuantity());
