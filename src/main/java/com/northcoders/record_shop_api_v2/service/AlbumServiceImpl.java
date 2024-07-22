@@ -62,4 +62,8 @@ public class AlbumServiceImpl implements AlbumService{
 
         return album;
     }
+
+    private Artist mapToEntity(ArtistDTO artistDTO){
+        
+    }
 }
