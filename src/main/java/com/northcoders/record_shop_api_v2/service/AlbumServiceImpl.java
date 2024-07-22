@@ -1,7 +1,9 @@
 package com.northcoders.record_shop_api_v2.service;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
+import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,9 @@ public class AlbumServiceImpl implements AlbumService{
         albumDTO.setStockQuantity(album.getStockQuantity());
 
         return albumDTO;
+    }
+
+    private ArtistDTO mapToDTO(Artist artist){
+        
     }
 }
