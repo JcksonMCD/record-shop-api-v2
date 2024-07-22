@@ -64,6 +64,11 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     private Artist mapToEntity(ArtistDTO artistDTO){
-        
+        Artist artist = new Artist();
+
+        artist.setId(artistDTO.getId());
+        artist.setName(artistDTO.getName());
+
+        return artist;
     }
 }
