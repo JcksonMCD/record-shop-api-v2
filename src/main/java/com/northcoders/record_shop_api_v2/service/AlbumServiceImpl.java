@@ -1,5 +1,6 @@
 package com.northcoders.record_shop_api_v2.service;
 
+import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public List<Album> getAllAlbums() {
+    public List<AlbumDTO> getAllAlbums() {
         List<Album> albums = new ArrayList<>();
         albumRepository.findAll().forEach(albums::add);
-        return albums;
+        return albums.stream().map();
+    }
+
+    private AlbumDTO mapToDTO(Album album){
+        
     }
 }
