@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AlbumServiceImpl implements AlbumService{
@@ -23,10 +24,10 @@ public class AlbumServiceImpl implements AlbumService{
     @Override
     public List<AlbumDTO> getAllAlbums() {
         List<Album> albums = albumRepository.findAll();
-        return albums.stream().map();
+        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    private AlbumDTO mapToDTO(Album album){
+    AlbumDTO mapToDTO(Album album){
         AlbumDTO albumDTO = new AlbumDTO();
 
         albumDTO.setId(album.getId());
@@ -40,7 +41,7 @@ public class AlbumServiceImpl implements AlbumService{
         return albumDTO;
     }
 
-    private ArtistDTO mapToDTO(Artist artist){
+    ArtistDTO mapToDTO(Artist artist){
         ArtistDTO artistDTO = new ArtistDTO();
 
         artistDTO.setId(artist.getId());
@@ -49,7 +50,7 @@ public class AlbumServiceImpl implements AlbumService{
         return  artistDTO;
     }
 
-    private Album mapToEntity(AlbumDTO albumDTO){
+    Album mapToEntity(AlbumDTO albumDTO){
         Album album = new Album();
 
         album.setId(albumDTO.getId());
@@ -63,7 +64,7 @@ public class AlbumServiceImpl implements AlbumService{
         return album;
     }
 
-    private Artist mapToEntity(ArtistDTO artistDTO){
+    Artist mapToEntity(ArtistDTO artistDTO){
         Artist artist = new Artist();
 
         artist.setId(artistDTO.getId());

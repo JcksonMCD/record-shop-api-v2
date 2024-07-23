@@ -1,5 +1,6 @@
 package com.northcoders.record_shop_api_v2.controller;
 
+import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Album>> getAllAlbums(){
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums(){
         return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
     }
 
