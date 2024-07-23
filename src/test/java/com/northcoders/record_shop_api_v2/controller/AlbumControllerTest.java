@@ -49,7 +49,7 @@ class AlbumControllerTest {
 
     @Test
     @DisplayName("GET /albums: Returns all albums")
-    void AlbumRepository_GetAll_ReturnsAllAlbumDTOs() throws Exception {
+    void AlbumController_GetAll_ReturnsAllAlbumDTOs() throws Exception {
         List<AlbumDTO> responseDTOList = List.of(albumDTO);
         when(albumService.getAllAlbums()).thenReturn(responseDTOList);
 
@@ -60,5 +60,11 @@ class AlbumControllerTest {
                 .andExpect(jsonPath("$[0].albumName").value(albumDTO.getAlbumName()))
                 .andExpect(jsonPath("$[0].genre").value(albumDTO.getGenre().toString()))
                 .andExpect(jsonPath("$[0].releaseYear").value(albumDTO.getReleaseYear()));
+    }
+
+    @Test
+    @DisplayName("POST /albums: Returns album DTO and 'CREATED' status")
+    void AlbumController_PostAlbum_ReturnsAlbumDTO() throws Exception {
+
     }
 }
