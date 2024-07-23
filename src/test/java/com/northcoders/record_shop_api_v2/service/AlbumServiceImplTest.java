@@ -81,6 +81,20 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.postAlbum(): Returns album DTO")
+    void AlbumService_PostAlbum_ReturnsResponseDTO() {
+        // Arrange
+        when(albumRepository.save(album)).thenReturn(album);
+        AlbumDTO expectedDTO = albumDTO;
+
+        // Act
+        AlbumDTO actualDTO = albumService.postAlbum();
+
+        // Assert
+        assertEquals(expectedDTO, actualDTO);
+    }
+
+    @Test
     @DisplayName("albumService.mapToDTO(Album): Returns album as a DTO")
     public void AlbumService_MapToDTO_ReturnsMappedDTOAlbum() {
         // Act
