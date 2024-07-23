@@ -30,22 +30,68 @@ class AlbumServiceImplTest {
 
     private Album album;
     private AlbumDTO albumDTO;
+    private Artist artist;
+    private ArtistDTO artistDTO;
 
     @BeforeEach
     public void init(){
         MockitoAnnotations.openMocks(this);
-        album = Album.builder().albumName("Nothing But Thieves").artist(new Artist()).genre(Genre.ROCK).releaseYear(2020).build();
-        albumDTO = AlbumDTO.builder().albumName("Nothing But Thieves").artist(new ArtistDTO()).genre(Genre.ROCK).releaseYear(2020).build();
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setName("Test Artist");
 
+        artistDTO =new ArtistDTO();
+        artistDTO.setId(1L);
+        artistDTO.setName("Test Artist");
+
+        album = Album.builder()
+                .id(1L)
+                .albumName("Test Album")
+                .artist(artist)
+                .genre(Genre.ROCK)
+                .artUrl("http://example.com/art.jpg")
+                .releaseYear(2021)
+                .stockQuantity(10)
+                .build();
+
+        albumDTO = AlbumDTO.builder()
+                .id(1L)
+                .albumName("Test Album")
+                .artist(artistDTO)
+                .genre(Genre.ROCK)
+                .artUrl("http://example.com/art.jpg")
+                .releaseYear(2021)
+                .stockQuantity(10)
+                .build();
     }
 
     @Test
     void AlbumService_GetAll_ReturnsResponseDTO() {
+        // Arrange
         when(albumRepository.findAll()).thenReturn(List.of(album));
-
         List<AlbumDTO> expectedDTOList = List.of(albumDTO);
+
+        // Act
         List<AlbumDTO> actualDTOList = albumService.getAllAlbums();
 
+        // Assert
         assertEquals(expectedDTOList, actualDTOList);
+    }
+
+    @Test
+    public void AlbumService_MapToDTO_ReturnsMappedDTOArtist() {
+        // Act
+        AlbumDTO responseDTO = albumService.mapToDTO(album);
+
+        // Assert
+        assertNotNull(responseDTO);
+        assertEquals(album.getId(), responseDTO.getId());
+        assertEquals(album.getAlbumName(), responseDTO.getAlbumName());
+        assertEquals(album.getGenre(), responseDTO.getGenre());
+        assertNotNull(responseDTO.getArtist());
+        assertEquals(album.getArtist().getId(), responseDTO.getArtist().getId());
+        assertEquals(album.getArtUrl(), responseDTO.getArtUrl());
+        assertEquals(album.getReleaseYear(), responseDTO.getReleaseYear());
+        assertEquals(album.getStockQuantity(), responseDTO.getStockQuantity());
     }
 }

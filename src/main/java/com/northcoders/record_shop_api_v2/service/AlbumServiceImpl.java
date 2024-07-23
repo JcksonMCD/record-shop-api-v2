@@ -27,7 +27,7 @@ public class AlbumServiceImpl implements AlbumService{
         return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    private AlbumDTO mapToDTO(Album album){
+    AlbumDTO mapToDTO(Album album){
         AlbumDTO albumDTO = new AlbumDTO();
 
         albumDTO.setId(album.getId());
