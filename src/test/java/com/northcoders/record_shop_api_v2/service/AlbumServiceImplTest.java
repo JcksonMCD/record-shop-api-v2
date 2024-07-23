@@ -79,7 +79,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
-    public void AlbumService_MapToDTO_ReturnsMappedDTOArtist() {
+    public void AlbumService_MapToDTO_ReturnsMappedDTOAlbum() {
         // Act
         AlbumDTO responseDTO = albumService.mapToDTO(album);
 
@@ -93,5 +93,16 @@ class AlbumServiceImplTest {
         assertEquals(album.getArtUrl(), responseDTO.getArtUrl());
         assertEquals(album.getReleaseYear(), responseDTO.getReleaseYear());
         assertEquals(album.getStockQuantity(), responseDTO.getStockQuantity());
+    }
+
+    @Test
+    public void AlbumService_MapToDTO_ReturnsMappedDTOArtist() {
+        // Act
+        ArtistDTO responseDTO = albumService.mapToDTO(artist);
+
+        // Assert
+        assertNotNull(responseDTO);
+        assertEquals(artist.getId(), responseDTO.getId());
+        assertEquals(artist.getName(), responseDTO.getName());
     }
 }

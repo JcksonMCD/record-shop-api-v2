@@ -41,7 +41,7 @@ public class AlbumServiceImpl implements AlbumService{
         return albumDTO;
     }
 
-    private ArtistDTO mapToDTO(Artist artist){
+    ArtistDTO mapToDTO(Artist artist){
         ArtistDTO artistDTO = new ArtistDTO();
 
         artistDTO.setId(artist.getId());
@@ -50,7 +50,7 @@ public class AlbumServiceImpl implements AlbumService{
         return  artistDTO;
     }
 
-    private Album mapToEntity(AlbumDTO albumDTO){
+    Album mapToEntity(AlbumDTO albumDTO){
         Album album = new Album();
 
         album.setId(albumDTO.getId());
@@ -64,7 +64,7 @@ public class AlbumServiceImpl implements AlbumService{
         return album;
     }
 
-    private Artist mapToEntity(ArtistDTO artistDTO){
+    Artist mapToEntity(ArtistDTO artistDTO){
         Artist artist = new Artist();
 
         artist.setId(artistDTO.getId());
