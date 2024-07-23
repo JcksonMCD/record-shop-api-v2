@@ -27,6 +27,11 @@ public class AlbumServiceImpl implements AlbumService{
         return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public AlbumDTO postAlbum() {
+        return null;
+    }
+
     AlbumDTO mapToDTO(Album album){
         AlbumDTO albumDTO = new AlbumDTO();
 
