@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class AlbumServiceImpl implements AlbumService{
     AlbumRepository albumRepository;
 
+    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
     @Autowired
     public AlbumServiceImpl(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
@@ -28,8 +29,10 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public AlbumDTO postAlbum() {
-        return null;
+    public AlbumDTO postAlbum(AlbumDTO albumDTO) {
+        Album savedAlbum = albumRepository.save(mapToEntity(albumDTO));
+
+        return mapToDTO(savedAlbum);
     }
 
     AlbumDTO mapToDTO(Album album){

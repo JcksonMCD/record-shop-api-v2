@@ -66,7 +66,7 @@ class AlbumControllerTest {
     @Test
     @DisplayName("POST /album: Returns album DTO and 'CREATED' status")
     void AlbumController_PostAlbum_ReturnsAlbumDTO() throws Exception {
-        when(albumService.postAlbum()).thenReturn(albumDTO);
+        when(albumService.postAlbum(albumDTO)).thenReturn(albumDTO);
 
         ResultActions response = mockMvc.perform(post("/api/v2/album"));
 
