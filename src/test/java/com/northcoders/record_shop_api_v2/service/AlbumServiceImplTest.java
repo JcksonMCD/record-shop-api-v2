@@ -7,6 +7,7 @@ import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.model.Genre;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -66,6 +67,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.getAll(): Returns all albums as DTOs")
     void AlbumService_GetAll_ReturnsResponseDTO() {
         // Arrange
         when(albumRepository.findAll()).thenReturn(List.of(album));
@@ -79,6 +81,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.mapToDTO(Album): Returns album as a DTO")
     public void AlbumService_MapToDTO_ReturnsMappedDTOAlbum() {
         // Act
         AlbumDTO responseDTO = albumService.mapToDTO(album);
@@ -96,6 +99,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.mapToDTO(Artist): Returns artist as a DTO")
     public void AlbumService_MapToDTO_ReturnsMappedDTOArtist() {
         // Act
         ArtistDTO responseDTO = albumService.mapToDTO(artist);
@@ -107,6 +111,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.mapToEntity(AlbumDTO): Returns albumDTO as an album")
     public void AlbumService_MapToEntity_ReturnsMappedAlbum() {
         // Act
         Album responseEntity = albumService.mapToEntity(albumDTO);
@@ -124,6 +129,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.mapToEntity(ArtistDTO): Returns artistDTO as an artist")
     public void AlbumService_MapToEntity_ReturnsMappedDTOArtist() {
         // Act
         Artist responseEntity = albumService.mapToEntity(artistDTO);
