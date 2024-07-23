@@ -122,4 +122,15 @@ class AlbumServiceImplTest {
         assertEquals(albumDTO.getReleaseYear(), responseEntity.getReleaseYear());
         assertEquals(albumDTO.getStockQuantity(), responseEntity.getStockQuantity());
     }
+
+    @Test
+    public void AlbumService_MapToEntity_ReturnsMappedDTOArtist() {
+        // Act
+        Artist responseEntity = albumService.mapToEntity(artistDTO);
+
+        // Assert
+        assertNotNull(responseEntity);
+        assertEquals(artistDTO.getId(), responseEntity.getId());
+        assertEquals(artistDTO.getName(), responseEntity.getName());
+    }
 }
