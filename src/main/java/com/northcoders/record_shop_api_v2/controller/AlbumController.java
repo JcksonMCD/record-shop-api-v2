@@ -1,6 +1,10 @@
 package com.northcoders.record_shop_api_v2.controller;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+
+import com.northcoders.record_shop_api_v2.dto.AlbumGetAllResponse;
+import com.northcoders.record_shop_api_v2.model.Album;
+
 import com.northcoders.record_shop_api_v2.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +32,11 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AlbumDTO>> getAllAlbums(){
-        return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
+    public ResponseEntity<AlbumGetAllResponse> getAllAlbums(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        return new ResponseEntity<>(albumService.getAllAlbums(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

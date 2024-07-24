@@ -1,6 +1,7 @@
 package com.northcoders.record_shop_api_v2.service;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+import com.northcoders.record_shop_api_v2.dto.AlbumGetAllResponse;
 import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
@@ -15,8 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,14 +81,27 @@ class AlbumServiceImplTest {
     @DisplayName("albumService.getAll(): Returns all albums as DTOs")
     void AlbumService_GetAll_ReturnsResponseDTO() {
         // Arrange
-        when(albumRepository.findAll()).thenReturn(List.of(album));
-        List<AlbumDTO> expectedDTOList = List.of(albumDTO);
+        Album album1 = new Album(1L, "Album1", new Artist(1L, "Artist1", null), Genre.ROCK, "artURL", 2021, 10);
+        Album album2 = new Album(2L, "Album2", new Artist(2L, "Artist2", null), Genre.POP, "artURL", 2021, 10);
+
+        List<Album> albumList = Arrays.asList(album1, album2);
+        Page<Album> albumPage = new PageImpl<>(albumList, PageRequest.of(0, 2), albumList.size());
+
+        when(albumRepository.findAll(PageRequest.of(0, 2))).thenReturn(albumPage);
 
         // Act
-        List<AlbumDTO> actualDTOList = albumService.getAllAlbums();
+        AlbumGetAllResponse response = albumService.getAllAlbums(0, 2);
 
         // Assert
-        assertEquals(expectedDTOList, actualDTOList);
+        assertNotNull(response);
+        assertEquals(2, response.getContent().size());
+        assertEquals(0, response.getPageNo());
+        assertEquals(2, response.getPageSize());
+        assertEquals(1, response.getTotalPages());
+        assertEquals(2, response.getTotalElements());
+        assertTrue(response.isLast());
+        assertEquals("Album1", response.getContent().get(0).getAlbumName());
+        assertEquals("Album2", response.getContent().get(1).getAlbumName());
     }
 
     @Test
