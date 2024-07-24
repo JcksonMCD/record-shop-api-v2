@@ -48,6 +48,12 @@ public class AlbumController {
         return new ResponseEntity<>(albumService.editAlbumById(id, albumDTO), HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAlbumById(
+            @PathVariable long id
+    ){
+        albumService.deleteAlbumById(id);
+        return new ResponseEntity<>("Album deleted at id: " + id, HttpStatus.OK);
+    }
 
 }

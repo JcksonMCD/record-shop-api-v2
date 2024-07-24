@@ -14,4 +14,6 @@ public interface AlbumService {
     AlbumDTO getAlbumById(long id);
 
     AlbumDTO editAlbumById(long id, AlbumDTO albumDTO);
+
+    void deleteAlbumById(long id);
 }
