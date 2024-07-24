@@ -47,5 +47,11 @@ class ArtistRepositoryTest {
         assertNull(savedArtist.getAlbums());
     }
 
+    @Test
+    @DisplayName("artistRepository.findByName(): Finds an artist from the repository by name.")
+    public void ArtistRepository_findByName_ReturnsArtistByName(){
+        
+    }
+
 
 }
