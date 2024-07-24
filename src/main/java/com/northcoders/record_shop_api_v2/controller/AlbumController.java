@@ -6,10 +6,7 @@ import com.northcoders.record_shop_api_v2.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +27,10 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ResponseEntity<AlbumDTO> postAlbum(){
-        return new ResponseEntity<>(albumService.postAlbum(), HttpStatus.CREATED);
+    public ResponseEntity<AlbumDTO> postAlbum(
+            @RequestBody AlbumDTO albumDTO
+    ){
+        return new ResponseEntity<>(albumService.postAlbum(albumDTO), HttpStatus.CREATED);
     }
 
 }

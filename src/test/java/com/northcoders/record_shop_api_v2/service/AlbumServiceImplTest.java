@@ -88,7 +88,7 @@ class AlbumServiceImplTest {
         AlbumDTO expectedDTO = albumDTO;
 
         // Act
-        AlbumDTO actualDTO = albumService.postAlbum();
+        AlbumDTO actualDTO = albumService.postAlbum(albumDTO);
 
         // Assert
         assertEquals(expectedDTO, actualDTO);

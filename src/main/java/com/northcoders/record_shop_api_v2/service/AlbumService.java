@@ -9,5 +9,5 @@ public interface AlbumService {
 
     List<AlbumDTO> getAllAlbums();
 
-    AlbumDTO postAlbum();
+    AlbumDTO postAlbum(AlbumDTO albumDTO);
 }

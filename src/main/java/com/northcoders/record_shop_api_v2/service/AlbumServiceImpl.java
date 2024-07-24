@@ -5,6 +5,7 @@ import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
+import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class AlbumServiceImpl implements AlbumService{
     AlbumRepository albumRepository;
+    ArtistRepository artistRepository;
 
     @Autowired
-    public AlbumServiceImpl(AlbumRepository albumRepository) {
+    public AlbumServiceImpl(AlbumRepository albumRepository, ArtistRepository artistRepository) {
         this.albumRepository = albumRepository;
+        this.artistRepository = artistRepository;
     }
+
+    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
+    @Autowired
+
 
     @Override
     public List<AlbumDTO> getAllAlbums() {
@@ -28,8 +35,10 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public AlbumDTO postAlbum() {
-        return null;
+    public AlbumDTO postAlbum(AlbumDTO albumDTO) {
+        Album savedAlbum = albumRepository.save(mapToEntity(albumDTO));
+
+        return mapToDTO(savedAlbum);
     }
 
     AlbumDTO mapToDTO(Album album){
