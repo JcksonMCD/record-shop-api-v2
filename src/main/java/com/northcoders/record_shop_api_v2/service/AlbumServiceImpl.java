@@ -85,7 +85,11 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public void deleteAlbumById(long id) {
+        Album album = albumRepository.findById(id).orElseThrow(
+                () -> new AlbumNotFoundException("No album found at this id so no deletion has taken place.")
+        );
 
+        albumRepository.delete(album);
     }
 
     AlbumDTO mapToDTO(Album album){
