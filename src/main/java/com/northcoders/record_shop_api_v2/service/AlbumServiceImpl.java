@@ -63,7 +63,24 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public AlbumDTO editAlbumById(long id, AlbumDTO albumDTO) {
-        return null;
+        Album album = albumRepository.findById(id).orElseThrow(() -> new AlbumNotFoundException("No album found at this id to update."));
+
+        album.setAlbumName(albumDTO.getAlbumName());
+        album.setGenre(albumDTO.getGenre());
+        album.setArtUrl(albumDTO.getArtUrl());
+        album.setReleaseYear(albumDTO.getReleaseYear());
+        album.setStockQuantity(albumDTO.getStockQuantity());
+
+        // Check if the artist exists; if not, save the new artist
+        Artist artist = artistRepository.findByName(albumDTO.getArtist().getName());
+        if (artist == null) {
+            artist = artistRepository.save(mapToEntity(albumDTO.getArtist()));
+        }
+        album.setArtist(artist);
+
+        Album updatedAlbum = albumRepository.save(album);
+
+        return mapToDTO(updatedAlbum);
     }
 
     AlbumDTO mapToDTO(Album album){
