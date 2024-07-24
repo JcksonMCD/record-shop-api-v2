@@ -1,8 +1,10 @@
 package com.northcoders.record_shop_api_v2.controller;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+
 import com.northcoders.record_shop_api_v2.dto.AlbumGetAllResponse;
 import com.northcoders.record_shop_api_v2.model.Album;
+
 import com.northcoders.record_shop_api_v2.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +54,12 @@ public class AlbumController {
         return new ResponseEntity<>(albumService.editAlbumById(id, albumDTO), HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAlbumById(
+            @PathVariable long id
+    ){
+        albumService.deleteAlbumById(id);
+        return new ResponseEntity<>("Album deleted at id: " + id, HttpStatus.OK);
+    }
 
 }

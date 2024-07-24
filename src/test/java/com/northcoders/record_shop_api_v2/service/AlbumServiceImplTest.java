@@ -195,6 +195,22 @@ class AlbumServiceImplTest {
         verify(artistRepository, times(1)).findByName("Test Artist");
     }
 
+    @Test
+    @DisplayName("albumService.deleteById(): Calls album repositories delete method.")
+    public void AlbumService_deleteByID_ShouldReturnAlbumDTO() {
+        // Arrange
+        Album album = new Album();
+        album.setId(1L);
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(album));
+
+        // Act
+        albumService.deleteAlbumById(1L);
+
+        // Assert
+        verify(albumRepository, times(1)).findById(1L);
+        verify(albumRepository, times(1)).delete(album);
+    }
+
 
     @Test
     @DisplayName("albumService.mapToDTO(Album): Returns album as a DTO")

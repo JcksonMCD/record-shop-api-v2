@@ -24,10 +24,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = AlbumController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -132,6 +131,20 @@ class AlbumControllerTest {
                 .andExpect(jsonPath("$.albumName").value(albumDTO.getAlbumName()))
                 .andExpect(jsonPath("$.genre").value(albumDTO.getGenre().toString()))
                 .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
+    }
+
+    @Test
+    @DisplayName("DELETE /album: Returns a string stating album was successfully deleted.")
+    void AlbumController_DeleteById_ReturnsAlbumDTO() throws Exception {
+        doNothing().when(albumService).deleteAlbumById(1L);
+
+        ResultActions response = mockMvc.perform(delete("/api/v2/album/1"));
+
+        response
+                .andExpect(status().isOk())
+                .andExpect(content().string("Album deleted at id: 1"));
+
+        verify(albumService, times(1)).deleteAlbumById(1L);
     }
 
     private String asJsonString(Object obj) {

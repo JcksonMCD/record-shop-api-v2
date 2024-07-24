@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -79,5 +80,20 @@ class AlbumRepositoryTest {
         assertEquals("Nothing But Thieves", foundAlbum.getAlbumName());
         assertEquals(Genre.ROCK, foundAlbum.getGenre());
         assertEquals(2020, foundAlbum.getReleaseYear());
+    }
+
+    @Test
+    @DisplayName("albumRepository.deleteById(): Successfully deletes an album at a given id.")
+    public void AlbumRepository_DeleteById_ReturnsAlbumWithCorrespondingID(){
+        // Arrange
+        album = albumRepository.save(album);
+        Long albumId = album.getId();
+        assertThat(albumRepository.findById(albumId)).isPresent();
+
+        // Act
+        albumRepository.deleteById(albumId);
+
+        // Assert
+        assertThat(albumRepository.findById(albumId)).isNotPresent();
     }
 }
