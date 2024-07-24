@@ -2,6 +2,7 @@ package com.northcoders.record_shop_api_v2.service;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
 import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
+import com.northcoders.record_shop_api_v2.exceptions.AlbumNotFoundException;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,20 +21,11 @@ public class AlbumServiceImpl implements AlbumService{
     AlbumRepository albumRepository;
     ArtistRepository artistRepository;
 
+    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
     @Autowired
     public AlbumServiceImpl(AlbumRepository albumRepository, ArtistRepository artistRepository) {
         this.albumRepository = albumRepository;
         this.artistRepository = artistRepository;
-    }
-
-    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
-    @Autowired
-
-
-    @Override
-    public List<AlbumDTO> getAllAlbums() {
-        List<Album> albums = albumRepository.findAll();
-        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -52,6 +45,22 @@ public class AlbumServiceImpl implements AlbumService{
         Album savedAlbum = albumRepository.save(album);
 
         return mapToDTO(savedAlbum);
+    }
+
+    @Override
+    public List<AlbumDTO> getAllAlbums() {
+        List<Album> albums = albumRepository.findAll();
+        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public AlbumDTO getAlbumById(long id) {
+        Optional<Album> foundAlbum = albumRepository.findById(id);
+
+        if (foundAlbum.isEmpty()){
+            throw new AlbumNotFoundException("No album found at given id.");
+        }
+        return mapToDTO(foundAlbum.get());
     }
 
     AlbumDTO mapToDTO(Album album){

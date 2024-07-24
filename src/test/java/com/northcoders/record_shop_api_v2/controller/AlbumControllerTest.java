@@ -49,6 +49,20 @@ class AlbumControllerTest {
     }
 
     @Test
+    @DisplayName("POST /album: Returns album DTO and 'CREATED' status")
+    void AlbumController_PostAlbum_ReturnsAlbumDTO() throws Exception {
+        when(albumService.postAlbum(albumDTO)).thenReturn(albumDTO);
+
+        ResultActions response = mockMvc.perform(post("/api/v2/album"));
+
+        response
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.albumName").value(albumDTO.getAlbumName()))
+                .andExpect(jsonPath("$.genre").value(albumDTO.getGenre().toString()))
+                .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
+    }
+
+    @Test
     @DisplayName("GET /album: Returns all albums")
     void AlbumController_GetAll_ReturnsAllAlbumDTOs() throws Exception {
         List<AlbumDTO> responseDTOList = List.of(albumDTO);
@@ -64,14 +78,15 @@ class AlbumControllerTest {
     }
 
     @Test
-    @DisplayName("POST /album: Returns album DTO and 'CREATED' status")
-    void AlbumController_PostAlbum_ReturnsAlbumDTO() throws Exception {
-        when(albumService.postAlbum(albumDTO)).thenReturn(albumDTO);
+    @DisplayName("GET /album: Returns all albums")
+    void AlbumController_GetById_ReturnsAlbumDTOWithMatchingID() throws Exception {
+        AlbumDTO responseDTO = albumDTO;
+        when(albumService.getAlbumById(1)).thenReturn(responseDTO);
 
-        ResultActions response = mockMvc.perform(post("/api/v2/album"));
+        ResultActions response = mockMvc.perform(get("/api/v2/album/1"));
 
         response
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.albumName").value(albumDTO.getAlbumName()))
                 .andExpect(jsonPath("$.genre").value(albumDTO.getGenre().toString()))
                 .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
