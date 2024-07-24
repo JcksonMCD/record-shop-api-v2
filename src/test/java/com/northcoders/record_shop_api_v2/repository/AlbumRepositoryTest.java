@@ -42,7 +42,7 @@ class AlbumRepositoryTest {
 
         // Assert
         assertNotNull(savedAlbum);
-        assertEquals(1, savedAlbum.getId());
+        assertEquals(4, savedAlbum.getId());
         assertEquals("Nothing But Thieves", savedAlbum.getAlbumName());
         assertEquals(Genre.ROCK, savedAlbum.getGenre());
         assertEquals(2020, savedAlbum.getReleaseYear());

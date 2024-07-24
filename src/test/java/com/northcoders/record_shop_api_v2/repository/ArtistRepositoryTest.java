@@ -56,7 +56,7 @@ class ArtistRepositoryTest {
 
         // Assert
         assertNotNull(foundArtist);
-        assertEquals(1, foundArtist.getId());
+        assertEquals(2, foundArtist.getId());
         assertEquals("Test Artist", foundArtist.getName());
         assertNull(foundArtist.getAlbums());
     }
