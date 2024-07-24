@@ -2,6 +2,7 @@ package com.northcoders.record_shop_api_v2.service;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
 import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
+import com.northcoders.record_shop_api_v2.exceptions.AlbumNotFoundException;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
@@ -57,7 +58,7 @@ public class AlbumServiceImpl implements AlbumService{
         Optional<Album> foundAlbum = albumRepository.findById(id);
 
         if (foundAlbum.isEmpty()){
-            throw new RuntimeException("Album not found");
+            throw new AlbumNotFoundException("No album found at given id.");
         }
         return mapToDTO(foundAlbum.get());
     }
