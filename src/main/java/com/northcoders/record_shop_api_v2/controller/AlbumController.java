@@ -21,16 +21,23 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<AlbumDTO>> getAllAlbums(){
-        return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<AlbumDTO> postAlbum(
             @RequestBody AlbumDTO albumDTO
     ){
         return new ResponseEntity<>(albumService.postAlbum(albumDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums(){
+        return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<AlbumDTO>> getAlbumById(
+            @PathVariable long id
+    ){
+        return new ResponseEntity<>(albumService.getAlbumById(), HttpStatus.OK);
     }
 
 }
