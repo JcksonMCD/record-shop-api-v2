@@ -1,7 +1,5 @@
 package com.northcoders.record_shop_api_v2.repository;
 
-import com.northcoders.record_shop_api_v2.model.Album;
-import com.northcoders.record_shop_api_v2.model.Genre;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +48,14 @@ class ArtistRepositoryTest {
     @Test
     @DisplayName("artistRepository.findByName(): Finds an artist from the repository by name.")
     public void ArtistRepository_findByName_ReturnsArtistByName(){
-        
+        // Act
+        Artist foundArtist = artistRepository.findByName(artist.getName());
+
+        // Assert
+        assertNotNull(foundArtist);
+        assertEquals(1, foundArtist.getId());
+        assertEquals("Test Artist", foundArtist.getName());
+        assertNull(foundArtist.getAlbums());
     }
 
 
