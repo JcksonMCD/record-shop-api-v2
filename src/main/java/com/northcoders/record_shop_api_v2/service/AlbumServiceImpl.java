@@ -6,6 +6,7 @@ import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +36,20 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
+    @Transactional
     public AlbumDTO postAlbum(AlbumDTO albumDTO) {
-        if (artistRepository.findByName(albumDTO.getArtist().getName()) == null){
-            artistRepository.save(mapToEntity(albumDTO.getArtist()));
+        Artist artist = artistRepository.findByName(albumDTO.getArtist().getName());
+        // Check if artist exists in the artist repository
+        if (artist == null) {
+            // Save artist if new and capture the returned entity
+            artist = artistRepository.save(mapToEntity(albumDTO.getArtist()));
         }
 
-        Album savedAlbum = albumRepository.save(mapToEntity(albumDTO));
+        Album album = mapToEntity(albumDTO);
+        // Set the saved artist entity to the album
+        album.setArtist(artist);
+
+        Album savedAlbum = albumRepository.save(album);
 
         return mapToDTO(savedAlbum);
     }
