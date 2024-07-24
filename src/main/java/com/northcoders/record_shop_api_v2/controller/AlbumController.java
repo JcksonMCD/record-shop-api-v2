@@ -45,7 +45,7 @@ public class AlbumController {
             @PathVariable long id,
             @RequestBody AlbumDTO albumDTO
     ){
-        return new ResponseEntity<>(albumService.editAlbumById(id), HttpStatus.OK);
+        return new ResponseEntity<>(albumService.editAlbumById(id, albumDTO), HttpStatus.OK);
     }
 
 

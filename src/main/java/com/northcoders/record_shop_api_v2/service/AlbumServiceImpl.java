@@ -62,7 +62,7 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public AlbumDTO editAlbumById(long id) {
+    public AlbumDTO editAlbumById(long id, AlbumDTO albumDTO) {
         return null;
     }
 

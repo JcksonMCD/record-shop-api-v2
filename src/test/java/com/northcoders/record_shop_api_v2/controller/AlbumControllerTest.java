@@ -1,5 +1,6 @@
 package com.northcoders.record_shop_api_v2.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
@@ -14,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +54,11 @@ class AlbumControllerTest {
     void AlbumController_PostAlbum_ReturnsAlbumDTO() throws Exception {
         when(albumService.postAlbum(albumDTO)).thenReturn(albumDTO);
 
-        ResultActions response = mockMvc.perform(post("/api/v2/album"));
+        ResultActions response = mockMvc.perform(
+                post("/api/v2/album")
+                        .contentType(MediaType.APPLICATION_JSON) 
+                        .content(asJsonString(albumDTO))
+        );
 
         response
                 .andExpect(status().isCreated())
@@ -78,7 +83,7 @@ class AlbumControllerTest {
     }
 
     @Test
-    @DisplayName("GET /album: Returns all albums")
+    @DisplayName("GET /albumById: Returns albumDTO with corresponding id")
     void AlbumController_GetById_ReturnsAlbumDTOWithMatchingID() throws Exception {
         AlbumDTO responseDTO = albumDTO;
         when(albumService.getAlbumById(1)).thenReturn(responseDTO);
@@ -91,4 +96,33 @@ class AlbumControllerTest {
                 .andExpect(jsonPath("$.genre").value(albumDTO.getGenre().toString()))
                 .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
     }
+
+    @Test
+    @DisplayName("PUT /album: Returns albumDTO of the up to date version of the album.")
+    void AlbumController_EditById_ReturnsAlbumDTO() throws Exception {
+        AlbumDTO responseDTO = albumDTO;
+        when(albumService.editAlbumById(1, albumDTO)).thenReturn(responseDTO);
+
+        ResultActions response = mockMvc.perform(
+                put("/api/v2/album/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(albumDTO))
+        );
+
+        response
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.albumName").value(albumDTO.getAlbumName()))
+                .andExpect(jsonPath("$.genre").value(albumDTO.getGenre().toString()))
+                .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
+    }
+
+    private String asJsonString(Object obj) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
