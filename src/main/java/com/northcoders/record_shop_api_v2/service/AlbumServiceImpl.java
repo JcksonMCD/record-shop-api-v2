@@ -10,6 +10,8 @@ import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -81,6 +83,7 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
+    @CachePut(cacheNames = "albums", key = "#id")
     public AlbumDTO editAlbumById(long id, AlbumDTO albumDTO) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new AlbumNotFoundException("No album found at this id to update."));
 
