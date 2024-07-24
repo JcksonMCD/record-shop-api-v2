@@ -37,6 +37,13 @@ class ArtistRepositoryTest {
     @Test
     @DisplayName("artistRepository.save(): Saves artist.")
     public void ArtistRepository_save_SavesArtist(){
+        // Act
+        Artist savedArtist = artistRepository.save(artist);
 
+        // Assert
+        assertNotNull(savedArtist);
+        assertEquals(1, savedArtist.getId());
+        assertEquals("Test Artist", savedArtist.getName());
+        assertNull(savedArtist.getAlbums());
     }
 }
