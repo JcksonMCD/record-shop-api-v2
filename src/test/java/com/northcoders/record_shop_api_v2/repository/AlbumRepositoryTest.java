@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +35,20 @@ class AlbumRepositoryTest {
     }
 
     @Test
+    @DisplayName("albumRepository.save(): Saves album.")
+    public void AlbumRepository_save_SavesAlbum(){
+        // Act
+        Album savedAlbum = albumRepository.save(album);
+
+        // Assert
+        assertNotNull(savedAlbum);
+        assertEquals(1, savedAlbum.getId());
+        assertEquals("Nothing But Thieves", savedAlbum.getAlbumName());
+        assertEquals(Genre.ROCK, savedAlbum.getGenre());
+        assertEquals(2020, savedAlbum.getReleaseYear());
+    }
+
+    @Test
     @DisplayName("albumRepository.getAll(): Returns all albums.")
     public void AlbumRepository_GetAll_ReturnsAllAlbums(){
         // Act
@@ -49,16 +64,20 @@ class AlbumRepositoryTest {
     }
 
     @Test
-    @DisplayName("albumRepository.save(): Saves album.")
-    public void AlbumRepository_save_SavesAlbum(){
-        // Act
+    @DisplayName("albumRepository.findById(): Returns album with the corresponding id.")
+    public void AlbumRepository_FindById_ReturnsAlbumWithCorrespondingID(){
+        // Arrange
         Album savedAlbum = albumRepository.save(album);
 
+        // Act
+        Optional<Album> foundAlbumOpt = albumRepository.findById(savedAlbum.getId());
+
         // Assert
-        assertNotNull(savedAlbum);
-        assertEquals(1, savedAlbum.getId());
-        assertEquals("Nothing But Thieves", savedAlbum.getAlbumName());
-        assertEquals(Genre.ROCK, savedAlbum.getGenre());
-        assertEquals(2020, savedAlbum.getReleaseYear());
+        assertTrue(foundAlbumOpt.isPresent(), "The album should be present");
+        Album foundAlbum = foundAlbumOpt.get();
+        assertEquals(savedAlbum.getId(), foundAlbum.getId());
+        assertEquals("Nothing But Thieves", foundAlbum.getAlbumName());
+        assertEquals(Genre.ROCK, foundAlbum.getGenre());
+        assertEquals(2020, foundAlbum.getReleaseYear());
     }
 }
