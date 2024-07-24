@@ -84,8 +84,8 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public AlbumDTO deleteAlbumById(long id) {
-        return null;
+    public void deleteAlbumById(long id) {
+
     }
 
     AlbumDTO mapToDTO(Album album){
