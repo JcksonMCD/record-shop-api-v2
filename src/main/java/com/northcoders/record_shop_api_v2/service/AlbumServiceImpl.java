@@ -9,7 +9,11 @@ import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +52,14 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public List<AlbumDTO> getAllAlbums() {
-        List<Album> albums = albumRepository.findAll();
-        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
+    public List<AlbumDTO> getAllAlbums(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        Page<Album> albums = albumRepository.findAll(pageable);
+
+        return albums.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

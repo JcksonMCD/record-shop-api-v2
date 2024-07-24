@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AlbumService {
 
-    List<AlbumDTO> getAllAlbums();
+    List<AlbumDTO> getAllAlbums(int pageNo, int pageSize);
 
     AlbumDTO postAlbum(AlbumDTO albumDTO);
 
