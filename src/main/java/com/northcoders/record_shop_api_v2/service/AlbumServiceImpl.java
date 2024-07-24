@@ -10,6 +10,7 @@ import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
 import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
@@ -107,6 +108,7 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
+    @CacheEvict(cacheNames = "albums", key = "#id")
     public void deleteAlbumById(long id) {
         Album album = albumRepository.findById(id).orElseThrow(
                 () -> new AlbumNotFoundException("No album found at this id so no deletion has taken place.")
