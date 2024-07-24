@@ -75,6 +75,7 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
+    @Cacheable(cacheNames = "albums", key = "#id")
     public AlbumDTO getAlbumById(long id) {
         Album foundAlbum = albumRepository.findById(id).orElseThrow(
                 () -> new AlbumNotFoundException("No album found at given id."));
