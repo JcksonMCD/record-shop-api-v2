@@ -154,6 +154,31 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("albumService.getAlbumById(): Returns album DTO corresponding to the album id.")
+    public void AlbumService_editByID_ShouldReturnAlbumDTO() {
+        // Arrange
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(album));
+        when(albumRepository.save(any(Album.class))).thenReturn(album); // Return the updated album
+        when(artistRepository.findByName("Test Artist")).thenReturn(artist);
+
+        // Act
+        AlbumDTO editedAlbumDTO = albumService.editAlbumById(1L, albumDTO);
+
+        // Assert
+        assertNotNull(editedAlbumDTO);
+        assertEquals(1L, editedAlbumDTO.getId());
+        assertEquals("Test Album", editedAlbumDTO.getAlbumName());
+        assertEquals(2021, editedAlbumDTO.getReleaseYear());
+        assertEquals(Genre.ROCK, editedAlbumDTO.getGenre());
+        assertEquals("Test Artist", editedAlbumDTO.getArtist().getName());
+
+        verify(albumRepository, times(1)).findById(1L);
+        verify(albumRepository, times(1)).save(any(Album.class));
+        verify(artistRepository, times(1)).findByName("Test Artist");
+    }
+
+
+    @Test
     @DisplayName("albumService.mapToDTO(Album): Returns album as a DTO")
     public void AlbumService_MapToDTO_ReturnsMappedDTOAlbum() {
         // Act
