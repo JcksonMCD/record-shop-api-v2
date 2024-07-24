@@ -19,20 +19,11 @@ public class AlbumServiceImpl implements AlbumService{
     AlbumRepository albumRepository;
     ArtistRepository artistRepository;
 
+    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
     @Autowired
     public AlbumServiceImpl(AlbumRepository albumRepository, ArtistRepository artistRepository) {
         this.albumRepository = albumRepository;
         this.artistRepository = artistRepository;
-    }
-
-    // Autowired annotation used on constructor vs. directly on the repository declaration for the benefit of unit testing.
-    @Autowired
-
-
-    @Override
-    public List<AlbumDTO> getAllAlbums() {
-        List<Album> albums = albumRepository.findAll();
-        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -52,6 +43,17 @@ public class AlbumServiceImpl implements AlbumService{
         Album savedAlbum = albumRepository.save(album);
 
         return mapToDTO(savedAlbum);
+    }
+
+    @Override
+    public List<AlbumDTO> getAllAlbums() {
+        List<Album> albums = albumRepository.findAll();
+        return albums.stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public AlbumDTO getAlbumById(long id) {
+        return null;
     }
 
     AlbumDTO mapToDTO(Album album){

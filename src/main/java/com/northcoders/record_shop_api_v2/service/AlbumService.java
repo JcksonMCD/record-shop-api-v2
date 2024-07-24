@@ -10,4 +10,6 @@ public interface AlbumService {
     List<AlbumDTO> getAllAlbums();
 
     AlbumDTO postAlbum(AlbumDTO albumDTO);
+
+    AlbumDTO getAlbumById(long id);
 }

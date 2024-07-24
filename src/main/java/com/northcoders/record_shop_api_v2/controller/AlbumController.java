@@ -34,10 +34,10 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AlbumDTO>> getAlbumById(
+    public ResponseEntity<AlbumDTO> getAlbumById(
             @PathVariable long id
     ){
-        return new ResponseEntity<>(albumService.getAlbumById(), HttpStatus.OK);
+        return new ResponseEntity<>(albumService.getAlbumById(id), HttpStatus.OK);
     }
 
 }
