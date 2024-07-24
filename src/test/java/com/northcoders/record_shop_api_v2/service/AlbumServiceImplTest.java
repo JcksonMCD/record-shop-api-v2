@@ -80,7 +80,7 @@ class AlbumServiceImplTest {
         List<AlbumDTO> expectedDTOList = List.of(albumDTO);
 
         // Act
-        List<AlbumDTO> actualDTOList = albumService.getAllAlbums();
+        List<AlbumDTO> actualDTOList = albumService.getAllAlbums(0, 10);
 
         // Assert
         assertEquals(expectedDTOList, actualDTOList);

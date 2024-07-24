@@ -54,10 +54,10 @@ public class AlbumServiceImpl implements AlbumService{
     @Override
     public List<AlbumDTO> getAllAlbums(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-
         Page<Album> albums = albumRepository.findAll(pageable);
+        List<Album> albumList = albums.getContent();
 
-        return albums.stream()
+        return albumList.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }

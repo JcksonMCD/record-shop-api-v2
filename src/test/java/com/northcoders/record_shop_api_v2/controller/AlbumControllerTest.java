@@ -71,7 +71,7 @@ class AlbumControllerTest {
     @DisplayName("GET /album: Returns all albums")
     void AlbumController_GetAll_ReturnsAllAlbumDTOs() throws Exception {
         List<AlbumDTO> responseDTOList = List.of(albumDTO);
-        when(albumService.getAllAlbums()).thenReturn(responseDTOList);
+        when(albumService.getAllAlbums(0, 10)).thenReturn(responseDTOList);
 
         ResultActions response = mockMvc.perform(get("/api/v2/album"));
 

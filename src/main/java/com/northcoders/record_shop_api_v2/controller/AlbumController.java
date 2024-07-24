@@ -29,8 +29,11 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AlbumDTO>> getAllAlbums(){
-        return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        return new ResponseEntity<>(albumService.getAllAlbums(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
