@@ -56,7 +56,7 @@ class AlbumControllerTest {
 
         ResultActions response = mockMvc.perform(
                 post("/api/v2/album")
-                        .contentType(MediaType.APPLICATION_JSON) 
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(albumDTO))
         );
 
