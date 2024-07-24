@@ -4,6 +4,8 @@ import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Genre;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -32,4 +34,9 @@ class ArtistRepositoryTest {
         artistRepository.deleteAll();
     }
 
+    @Test
+    @DisplayName("artistRepository.save(): Saves artist.")
+    public void ArtistRepository_save_SavesArtist(){
+
+    }
 }
