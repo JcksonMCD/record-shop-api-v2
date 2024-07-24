@@ -6,6 +6,7 @@ import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Artist;
 import com.northcoders.record_shop_api_v2.model.Genre;
 import com.northcoders.record_shop_api_v2.repository.AlbumRepository;
+import com.northcoders.record_shop_api_v2.repository.ArtistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,17 +15,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceImplTest {
 
     @Mock
     private AlbumRepository albumRepository;
+
+    @Mock
+    private ArtistRepository artistRepository;
 
     @InjectMocks
     private AlbumServiceImpl albumService;
@@ -81,17 +87,25 @@ class AlbumServiceImplTest {
     }
 
     @Test
-    @DisplayName("albumService.postAlbum(): Returns album DTO")
-    void AlbumService_PostAlbum_ReturnsResponseDTO() {
+    @Transactional
+    public void postAlbum_ShouldSaveAlbum_WhenArtistExists() {
         // Arrange
+        when(artistRepository.findByName("Test Artist")).thenReturn(artist);
         when(albumRepository.save(album)).thenReturn(album);
-        AlbumDTO expectedDTO = albumDTO;
 
         // Act
-        AlbumDTO actualDTO = albumService.postAlbum(albumDTO);
+        AlbumDTO savedAlbumDTO = albumService.postAlbum(albumDTO);
 
         // Assert
-        assertEquals(expectedDTO, actualDTO);
+        assertNotNull(savedAlbumDTO);
+        assertEquals("Test Album", savedAlbumDTO.getAlbumName());
+        assertEquals(2021, savedAlbumDTO.getReleaseYear());
+        assertEquals(Genre.ROCK, savedAlbumDTO.getGenre());
+        assertEquals("Test Artist", savedAlbumDTO.getArtist().getName());
+
+        verify(artistRepository, times(1)).findByName("Test Artist");
+        verify(artistRepository, never()).save(artist);
+        verify(albumRepository, times(1)).save(album);
     }
 
     @Test
