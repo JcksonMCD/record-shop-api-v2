@@ -88,6 +88,7 @@ class AlbumServiceImplTest {
 
     @Test
     @Transactional
+    @DisplayName("albumService.postAlbum(): Posts album when artist already exists and returns albumDTO.")
     public void postAlbum_ShouldSaveAlbum_WhenArtistExists() {
         // Arrange
         when(artistRepository.findByName("Test Artist")).thenReturn(artist);
@@ -105,6 +106,30 @@ class AlbumServiceImplTest {
 
         verify(artistRepository, times(1)).findByName("Test Artist");
         verify(artistRepository, never()).save(artist);
+        verify(albumRepository, times(1)).save(album);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("albumService.postAlbum(): Posts album and artist when artist does not exist in db already and returns albumDTO.")
+    public void postAlbum_ShouldSaveAlbumAndNewArtist_WhenArtistDoesNotExist() {
+        // Arrange
+        when(artistRepository.findByName("Test Artist")).thenReturn(null);
+        when(artistRepository.save(artist)).thenReturn(artist);
+        when(albumRepository.save(album)).thenReturn(album);
+
+        // Act
+        AlbumDTO savedAlbumDTO = albumService.postAlbum(albumDTO);
+
+        // Assert
+        assertNotNull(savedAlbumDTO);
+        assertEquals("Test Album", savedAlbumDTO.getAlbumName());
+        assertEquals(2021, savedAlbumDTO.getReleaseYear());
+        assertEquals(Genre.ROCK, savedAlbumDTO.getGenre());
+        assertEquals("Test Artist", savedAlbumDTO.getArtist().getName());
+
+        verify(artistRepository, times(1)).findByName("Test Artist");
+        verify(artistRepository, times(1)).save(artist);
         verify(albumRepository, times(1)).save(album);
     }
 
