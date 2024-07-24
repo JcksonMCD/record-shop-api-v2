@@ -48,6 +48,9 @@ class ArtistRepositoryTest {
     @Test
     @DisplayName("artistRepository.findByName(): Finds an artist from the repository by name.")
     public void ArtistRepository_findByName_ReturnsArtistByName(){
+        //Arrange
+        artistRepository.save(artist);
+        
         // Act
         Artist foundArtist = artistRepository.findByName(artist.getName());
 
