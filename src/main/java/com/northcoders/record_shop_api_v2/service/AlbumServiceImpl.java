@@ -1,6 +1,7 @@
 package com.northcoders.record_shop_api_v2.service;
 
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+import com.northcoders.record_shop_api_v2.dto.AlbumGetAllResponse;
 import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
 import com.northcoders.record_shop_api_v2.exceptions.AlbumNotFoundException;
 import com.northcoders.record_shop_api_v2.model.Album;
@@ -52,14 +53,23 @@ public class AlbumServiceImpl implements AlbumService{
     }
 
     @Override
-    public List<AlbumDTO> getAllAlbums(int pageNo, int pageSize) {
+    public AlbumGetAllResponse getAllAlbums(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Album> albums = albumRepository.findAll(pageable);
         List<Album> albumList = albums.getContent();
-
-        return albumList.stream()
+        List<AlbumDTO> content = albumList.stream()
                 .map(this::mapToDTO)
-                .collect(Collectors.toList());
+                .toList();
+
+        AlbumGetAllResponse getAllResponse = new AlbumGetAllResponse();
+            getAllResponse.setContent(content);
+            getAllResponse.setPageNo(albums.getNumber());
+            getAllResponse.setPageSize(albums.getSize());
+            getAllResponse.setTotalPages(albums.getTotalPages());
+            getAllResponse.setTotalElements(albums.getTotalElements());
+            getAllResponse.setLast(albums.isLast());
+
+            return getAllResponse;
     }
 
     @Override
