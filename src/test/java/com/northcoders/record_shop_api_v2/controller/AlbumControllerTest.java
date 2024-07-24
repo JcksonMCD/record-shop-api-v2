@@ -3,6 +3,8 @@ package com.northcoders.record_shop_api_v2.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.northcoders.record_shop_api_v2.dto.AlbumDTO;
+import com.northcoders.record_shop_api_v2.dto.AlbumGetAllResponse;
+import com.northcoders.record_shop_api_v2.dto.ArtistDTO;
 import com.northcoders.record_shop_api_v2.model.Album;
 import com.northcoders.record_shop_api_v2.model.Genre;
 import com.northcoders.record_shop_api_v2.service.AlbumService;
@@ -19,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -67,20 +70,35 @@ class AlbumControllerTest {
                 .andExpect(jsonPath("$.releaseYear").value(albumDTO.getReleaseYear()));
     }
 
-//    @Test
-//    @DisplayName("GET /album: Returns all albums")
-//    void AlbumController_GetAll_ReturnsAllAlbumDTOs() throws Exception {
-//        List<AlbumDTO> responseDTOList = List.of(albumDTO);
-//        when(albumService.getAllAlbums()).thenReturn(responseDTOList);
-//
-//        ResultActions response = mockMvc.perform(get("/api/v2/album"));
-//
-//        response
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].albumName").value(albumDTO.getAlbumName()))
-//                .andExpect(jsonPath("$[0].genre").value(albumDTO.getGenre().toString()))
-//                .andExpect(jsonPath("$[0].releaseYear").value(albumDTO.getReleaseYear()));
-//    }
+    @Test
+    @DisplayName("GET /album: Returns all albums")
+    void AlbumController_GetAll_ReturnsAllAlbumDTOs() throws Exception {
+        // Arrange
+        AlbumDTO albumDTO1 = new AlbumDTO(1L, "Album1", new ArtistDTO(), Genre.ROCK, "url1", 2021, 10);
+        AlbumDTO albumDTO2 = new AlbumDTO(2L, "Album2", new ArtistDTO(), Genre.POP, "url2", 2022, 15);
+        AlbumGetAllResponse response = new AlbumGetAllResponse();
+        response.setContent(Arrays.asList(albumDTO1, albumDTO2));
+        response.setPageNo(0);
+        response.setPageSize(2);
+        response.setTotalPages(1);
+        response.setTotalElements(2L);
+        response.setLast(true);
+
+        when(albumService.getAllAlbums(0, 2)).thenReturn(response);
+
+        // Act & Assert
+        mockMvc.perform(get("/api/v2/album")
+                        .param("pageNo", "0")
+                        .param("pageSize", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pageNo").value(0))
+                .andExpect(jsonPath("$.pageSize").value(2))
+                .andExpect(jsonPath("$.totalPages").value(1))
+                .andExpect(jsonPath("$.totalElements").value(2))
+                .andExpect(jsonPath("$.last").value(true))
+                .andExpect(jsonPath("$.content[0].albumName").value("Album1"))
+                .andExpect(jsonPath("$.content[1].albumName").value("Album2"));
+    }
 
     @Test
     @DisplayName("GET /albumById: Returns albumDTO with corresponding id")
