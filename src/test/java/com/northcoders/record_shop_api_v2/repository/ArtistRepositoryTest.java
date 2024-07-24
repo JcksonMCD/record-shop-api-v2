@@ -46,4 +46,6 @@ class ArtistRepositoryTest {
         assertEquals("Test Artist", savedArtist.getName());
         assertNull(savedArtist.getAlbums());
     }
+
+
 }
