@@ -20,7 +20,7 @@ Secure API with authentication and authorization.
 Exception handling for robust error management.
 
 ## API Documentation
-API documentation is available through Swagger UI at http://localhost:8080/swagger-ui/.
+API documentation is available through Swagger UI at http://localhost:8080/swagger-ui/index.html.
 
 ## API Endpoints
 Albums
