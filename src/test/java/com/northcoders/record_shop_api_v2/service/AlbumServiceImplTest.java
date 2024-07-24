@@ -18,8 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -131,6 +131,26 @@ class AlbumServiceImplTest {
         verify(artistRepository, times(1)).findByName("Test Artist");
         verify(artistRepository, times(1)).save(artist);
         verify(albumRepository, times(1)).save(album);
+    }
+
+    @Test
+    @DisplayName("albumService.getAlbumById(): Returns album DTO corresponding to the album id.")
+    public void AlbumService_findByID_ShouldReturnAlbumDTO() {
+        // Arrange
+        when(albumRepository.findById(1L)).thenReturn(Optional.ofNullable(album));
+
+        // Act
+        AlbumDTO foundAlbumDTO = albumService.getAlbumById(1L);
+
+        // Assert
+        assertNotNull(foundAlbumDTO);
+        assertEquals(1L, foundAlbumDTO.getId());
+        assertEquals("Test Album", foundAlbumDTO.getAlbumName());
+        assertEquals(2021, foundAlbumDTO.getReleaseYear());
+        assertEquals(Genre.ROCK, foundAlbumDTO.getGenre());
+        assertEquals("Test Artist", foundAlbumDTO.getArtist().getName());
+
+        verify(albumRepository, times(1)).findById(1L);
     }
 
     @Test
