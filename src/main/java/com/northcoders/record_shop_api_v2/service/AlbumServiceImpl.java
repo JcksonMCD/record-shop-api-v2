@@ -61,6 +61,11 @@ public class AlbumServiceImpl implements AlbumService{
         return mapToDTO(foundAlbum);
     }
 
+    @Override
+    public AlbumDTO editAlbumById(long id) {
+        return null;
+    }
+
     AlbumDTO mapToDTO(Album album){
         AlbumDTO albumDTO = new AlbumDTO();
 
