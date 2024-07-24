@@ -36,6 +36,10 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public AlbumDTO postAlbum(AlbumDTO albumDTO) {
+        if (artistRepository.findByName(albumDTO.getArtist().getName()) == null){
+            artistRepository.save(mapToEntity(albumDTO.getArtist()));
+        }
+
         Album savedAlbum = albumRepository.save(mapToEntity(albumDTO));
 
         return mapToDTO(savedAlbum);
