@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +54,12 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public AlbumDTO getAlbumById(long id) {
-        return null;
+        Optional<Album> foundAlbum = albumRepository.findById(id);
+
+        if (foundAlbum.isEmpty()){
+            throw new RuntimeException("Album not found");
+        }
+        return mapToDTO(foundAlbum.get());
     }
 
     AlbumDTO mapToDTO(Album album){
