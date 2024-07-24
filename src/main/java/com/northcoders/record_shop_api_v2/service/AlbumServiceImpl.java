@@ -55,12 +55,10 @@ public class AlbumServiceImpl implements AlbumService{
 
     @Override
     public AlbumDTO getAlbumById(long id) {
-        Optional<Album> foundAlbum = albumRepository.findById(id);
+        Album foundAlbum = albumRepository.findById(id).orElseThrow(
+                () -> new AlbumNotFoundException("No album found at given id."));
 
-        if (foundAlbum.isEmpty()){
-            throw new AlbumNotFoundException("No album found at given id.");
-        }
-        return mapToDTO(foundAlbum.get());
+        return mapToDTO(foundAlbum);
     }
 
     AlbumDTO mapToDTO(Album album){
