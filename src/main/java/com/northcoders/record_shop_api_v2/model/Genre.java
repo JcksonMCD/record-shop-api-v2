@@ -5,12 +5,14 @@ import java.util.Arrays;
 public enum Genre {
     ROCK,
     POP,
+    RAP,
     ELECTRONIC,
     JAZZ,
     METAL,
     ALTERNATIVE,
     CLASSICAL,
-    RAP;
+    SOUL,
+    HIPHOP;
 
     public static boolean isValid(String name) {
         return Arrays.stream(values()).anyMatch(e -> e.name().equals(name));
