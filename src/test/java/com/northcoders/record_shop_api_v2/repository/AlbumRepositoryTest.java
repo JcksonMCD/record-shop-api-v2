@@ -38,10 +38,8 @@ class AlbumRepositoryTest {
     @Test
     @DisplayName("albumRepository.save(): Saves album.")
     public void AlbumRepository_save_SavesAlbum(){
-        // Act
         Album savedAlbum = albumRepository.save(album);
 
-        // Assert
         assertNotNull(savedAlbum);
         assertEquals(4, savedAlbum.getId());
         assertEquals("Nothing But Thieves", savedAlbum.getAlbumName());
@@ -52,12 +50,10 @@ class AlbumRepositoryTest {
     @Test
     @DisplayName("albumRepository.getAll(): Returns all albums.")
     public void AlbumRepository_GetAll_ReturnsAllAlbums(){
-        // Act
         albumRepository.save(album);
         albumRepository.save(album2);
 
         List<Album> albumList = albumRepository.findAll();
-        // Assert
         assertNotNull(albumList);
         assertEquals(albumList.size(), 2);
         assertTrue(albumList.contains(album));
@@ -67,13 +63,10 @@ class AlbumRepositoryTest {
     @Test
     @DisplayName("albumRepository.findById(): Returns album with the corresponding id.")
     public void AlbumRepository_FindById_ReturnsAlbumWithCorrespondingID(){
-        // Arrange
         Album savedAlbum = albumRepository.save(album);
 
-        // Act
         Optional<Album> foundAlbumOpt = albumRepository.findById(savedAlbum.getId());
 
-        // Assert
         assertTrue(foundAlbumOpt.isPresent(), "The album should be present");
         Album foundAlbum = foundAlbumOpt.get();
         assertEquals(savedAlbum.getId(), foundAlbum.getId());
@@ -85,15 +78,12 @@ class AlbumRepositoryTest {
     @Test
     @DisplayName("albumRepository.deleteById(): Successfully deletes an album at a given id.")
     public void AlbumRepository_DeleteById_ReturnsAlbumWithCorrespondingID(){
-        // Arrange
         album = albumRepository.save(album);
         Long albumId = album.getId();
         assertThat(albumRepository.findById(albumId)).isPresent();
 
-        // Act
         albumRepository.deleteById(albumId);
 
-        // Assert
         assertThat(albumRepository.findById(albumId)).isNotPresent();
     }
 }
